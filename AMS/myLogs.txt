@@ -1,0 +1,498 @@
+﻿													Housekeeping		|
+[Staff],2015-1007,Food and Beverage |			|2015-1002				|
+[Supervisor],2015-1021				| 2015-1001	|2015-1004				|2015-1023
+[Manager],2015-461					| 2015-1002	|2015-1013				|
+[GM],2015-462						| 2015-1003	|						|
+[HR],2015-1002						|			|2015-1025,2015-1121	|
+[Admin],admin						|			|						|
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-24/////////////////////////////////
+///////////////////////////////////////////////////////////////
+- create for developers only area.
+	- can create role
+
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-23/////////////////////////////////
+///////////////////////////////////////////////////////////////
+- auto compute no of days when selecting date range in filing leave
+
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-22/////////////////////////////////
+///////////////////////////////////////////////////////////////
+- create folder that 'loginadmin' can only access
+- add guidelines on the sidebar for external login/logout
+	http://localhost:26475/timesheet/default.aspx
+- Leave Report
+	who can generate reports - admin,hr, and managers(respective staff)
+	filters:
+		- start date / end date
+		- All / Pending / Approved / Disapproved
+- add EPPlus for exporting to excel files - has problems rendering datetime
+- on filing leave - set status to Pending
+- improve generating report to excel file
+	 - not good with dates
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-21/////////////////////////////////
+///////////////////////////////////////////////////////////////
+- rework home page - implement content slide **NOT PRIORITY**
+- put outside the login - hide page name
+- leave report - who can generate report?
+	> restrict who can open that page from other computer
+	> 
+- add position,department column in http://localhost:26475/MasterConfig/LeaveUser.aspx **DONE**
+- validation when entering valid days in http://localhost:26475/MasterConfig/LeaveUser.aspx **DONE**
+- modified authentication mode forms slidingExpiration
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-16/////////////////////////////////
+///////////////////////////////////////////////////////////////
+- add external link for time-in time-out
+	- use mac address of the setup laptop/pc
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-15/////////////////////////////////
+///////////////////////////////////////////////////////////////
+LIVE TEST:
+
+http://121.97.255.232/eHRIS/Employee/UpdateSchedule.aspx
+	- fix editing of sched on why it shows 'A.M' instead of 'P.M' **DONE**
+
+- add department,position in http://121.97.255.232/eHRIS/MasterConfig/Employee_Account_MasterList.aspx **DONE**
+- hide leavetypeId column when updating leaves for user in : http://121.97.255.232/eHRIS/MasterConfig/LeaveUser.aspx
+- add default search in: http://121.97.255.232/eHRIS/MasterConfig/Employee_Account_MasterList.aspx - **DONE**
+- change default pass according to role in : http://121.97.255.232/eHRIS/HR/Register.aspx - username/password - same (default)
+
+
+- Refine Process of timesheet/leave/approval
+- where to put approved by dept head -> is it pending/approved/disapproved
+- Unlock/Lock user  - **DONE** - http://localhost:26475/MasterConfig/Employee_Account_MasterList.aspx
+- reflect user leave in timesheet ***DENIED***
+
+3 areas for viewing timesheet:
+	- http://localhost:26475/Employee/UpdateSchedule.aspx - **DONE**
+	- http://localhost:26475/Employee/MySchedule.aspx - **DONE**
+	- http://localhost:26475/HR/Attendance.aspx - **DONE**
+
+TASK:
+http://localhost:26475/Leave/MyLeave.aspx
+	- validate remaining days of leave when filed
+
+http://localhost:26475/Employee/UpdateSchedule.aspx
+	- add column TimeIn,TimeOut **DONE**
+	- cant edit TimeIn,TimeOut **DONE**
+	- can update user w/ no schedule but has TimeIn/TimeOut **DONE**
+	- 
+http://localhost:26475/HR/TimeInTimeOut.aspx
+	- will only show time-in where date is equal today or > to avoid accidentally overwriting old scheds
+	- implement -> avoid overwriting TimeIn/TimeOut ****IMPORTANT****
+	- 
+
+db details:
+- LeaveTransaction
+	Id
+	LeaveTypeUserId (varchar)
+	NumberOfDays (varchar)
+	DepartmentHeadApproval (varchar)
+	HRApproval (varchar)
+	FromDate (datetime)
+	ToDate (datetime)
+	Status (varchar)
+	UserId (guid)
+	FiledDate (datetime)
+
+- LeaveType
+	Id
+	LeaveName (varchar)
+	CreateDate (datetime)
+	ModifiedDate (datetime)
+	DefaultDays (varchar)
+	AgencyId (varchar)
+
+- LeaveTypeUser
+	Id
+	UserId (guid)
+	LeaveTypeId (int)
+	NoOfDays (int)
+
+- Schedule
+	Id
+	UserId
+	TimeStart
+	TimeEnd
+	Status (varchar)
+	TimeIn
+	TimeOut
+	Remarks
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-14//////////////////////////////
+//////////////////////////////////////////////////////////////
+- Refine Process of timesheet/leave/approval
+- where to put approved by dept head -> is it pending/approved/disapproved
+- activate user when locked-out
+- reflect user leave in timesheet
+
+http://localhost:26475/Leave/MyLeave.aspx
+	- implement -> cant edit when approved - can edit while pending/disapproved
+	- implement -> cant input negative(-) values in No of Days - **DONE**
+	- implement -> cant exceed no of days to lblRemainingDays - **DONE**
+	- implement -> hide delete if once approve/disapprove by either hr/deptHead - **DONE**
+	- implement -> delete leaveTransaction - **DONE**
+	- implement -> cant edit others leave - **DONE**
+http://localhost:26475/Leave/Leave.aspx
+	- implement Reports (printable)
+	- refine process
+	- what about approvals of supervisor/manager/gen_manager/hr
+VALIDATION:
+	- dates
+	
+ADDITION:
+	- search filters
+	- date formats
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-13//////////////////////////////
+//////////////////////////////////////////////////////////////
+- assigning of leaves - **DONE**
+- filing of leaves
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-12//////////////////////////////
+//////////////////////////////////////////////////////////////
+- updated process of timesheet
+- viewing of timesheet
+
+- add leave types to user -> according to agency
+- 
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-11//////////////////////////////
+//////////////////////////////////////////////////////////////
+- modify timesheet
+- add schedule of users
+	- creating/editing assigning of scheds per user per department
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-10//////////////////////////////
+//////////////////////////////////////////////////////////////
+- modify timesheet
+- add schedule of users
+	- creating/editing assigning of scheds per user per department
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-09//////////////////////////////
+//////////////////////////////////////////////////////////////
+-add leaves to user
+-edit no of days in leaves
+-delete leaves
+
+-myleaves
+-filing of leaves
+-approval of leaves
+-reports
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-07//////////////////////////////
+//////////////////////////////////////////////////////////////
+- add border in home page - **DONE**
+- add schedule in ViewProfile - 
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-03/04////////////////////////////////
+//////////////////////////////////////////////////////////////
+- timekeeping
+	- Compute rendered hourse and minutes - **DONE**
+	- admin,hr,manager -> Add/Edit/Delete Schedule
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-02////////////////////////////////
+//////////////////////////////////////////////////////////////
+timekeeping
+- use Ajax (UpdatePanel) in all gridviews !!DISCARD - too mi!!
+- fixed Evaluation redirection for agency - **DONE**
+- backup [Documents] and [ProfileImages] when publishing
+- add permanently delete employee [Encoding mistake only] - **DONE**
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-03-01////////////////////////////////
+//////////////////////////////////////////////////////////////
+- nav-tabs for the Employee master list and expiring contracts - **DONE**
+- removed word/excel button in Employee/Employee -> not report - **DONE**
+- add Agency in Reports/Birthdat Celebrants - **DONE**
+- fix Alignment of agency drop down filter in Reports/Employee_MasterList.aspx - **SKIP** -> **DONE**
+- fix exported document filename in reports - **DONE**
+- add paging in profile
+- Filters
+
+HOME
+
+Pending Evaluation Approvals: [Evaluation/PendingApprovals.aspx]
+	- Employee/vPerformanceEvaluation.aspx
+
+
+- add edit username
+- add tab for HMO
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-02-29////////////////////////////////
+//////////////////////////////////////////////////////////////
+- Bugs on GridView Paging and Sorting **ON HOLD**
+
+
+BUG:
+	Emergency Contact table - varchar(50) to varchar(MAX)
+	Address to appear in Emergency Contact
+
+
+Mich:
+	- Template: Add Enable Logo
+	- Home - bday panel, announcement, activities
+	- menu for - Evaluation Approvals **DONE**
+	- Employee/Employee - add column Agency **DONE**
+	- MasterConfig/Employee_Account_MasterList.aspx - add column Agency **DONE**
+	- Reports/Employee_MasterList.aspx - add column Agency **DONE**
+
+[EHI]
+	- HMO side tab link
+
+
+
+Time Keeping:
+
+
+
+Leaves:
+
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-02-26////////////////////////////////
+//////////////////////////////////////////////////////////////
+- continue delete confirmation in MasterConfig
+	- done Agency, Department, Position Management
+	- [ViewEmployee] Delete File upload ===== HOLD
+	- Employee Movement, job Experience, Education, Trainings, Awards, Violations, Contacts, Membership Cards
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-02-24////////////////////////////////
+//////////////////////////////////////////////////////////////
+- add Delete Confirmation in MasterConfig
+- fix siteMap
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-02-03////////////////////////////////
+//////////////////////////////////////////////////////////////
+- add start data && end date filter for Attendance logs
+- add func to delete confirmation for Master Config
+- add automated db backup
+- add transaction logs (logs for every add/edit/delete only)
+- optimized image rendering in ~/Employee/ViewEmployee ***DONE***
+- add error log
+
+- ERROR: one of Contact field is not large engough to accomodate a input
+	- SOL: set to varchar(MAX)
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-01-25////////////////////////////////
+//////////////////////////////////////////////////////////////
+- check for publish 
+	- globalization
+	- update db
+
+///////////////////////////////////////////////////////////////
+////////////////////2016-01-17////////////////////////////////
+//////////////////////////////////////////////////////////////
+- add automated database backup
+- add action logs (logs for every add/edit/delete only)
+- add login/logout (attendance) system under HR tab
+
+///////////////////////////////////////////////////////////////
+////////////////////2015-12-23////////////////////////////////
+//////////////////////////////////////////////////////////////
+- to be done: slide show in default.aspx page
+- fix GUI of: http://localhost:26475/Employee/ViewEmployee
+- 
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2015-12-21////////////////////////////////
+//////////////////////////////////////////////////////////////
+- remove reference key of Evaluation_Self -> Evaluation
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2015-12-14////////////////////////////////
+//////////////////////////////////////////////////////////////
+- changed position based role -> to -> assign to role
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2015-12-11////////////////////////////////
+//////////////////////////////////////////////////////////////
+- fix GUI of : http://localhost:26475/Employee/ViewEmployee
+- Optimzation: ->open db connection right when needed, release them early
+- use alerts
+- row counts
+- web config transformation 
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2015-12-08////////////////////////////////
+//////////////////////////////////////////////////////////////
+- confirmation delete/bootstrap
+- bundles and minification
+- emovement: from->position:
+			reason
+			effectivity date
+
+///////////////////////////////////////////////////////////////
+////////////////////2015-12-05////////////////////////////////
+//////////////////////////////////////////////////////////////
+- Inlcude All Delete Function with Confirmation in Admin
+
+///////////////////////////////////////////////////////////////
+////////////////////2015-12-02////////////////////////////////
+//////////////////////////////////////////////////////////////
+SELECT FirstName, Contract_SD, Contract_ED, DATEDIFF(DAY, Contract_SD,Contract_ED), 
+CAST((DATEDIFF(MM, Contract_SD,Contract_ED)/12) as varchar) + ' Years ' + 
+CAST((DATEDIFF (MM, Contract_SD, Contract_ED) % 12 ) as varchar) + ' Months ' AS  [Duration],
+DATEPART(d,Contract_ED) - DATEPART(d,Contract_SD)
+FROM EMPLOYEE
+
+
+>>fixed employee master list
+>>notification
+>>duration
+>>age
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2015-12-01////////////////////////////////
+//////////////////////////////////////////////////////////////
+- code cleanup ////
+- filter dashboard ///
+- notification of employee who will be evaluated (2 weeks noti)
+
+Information By lester:
+	-score sheet ->all managers will not be evaluated <<>> only staff
+	-reports
+	-evaluation||| management -> staff
+
+
+
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2015-11-27////////////////////////////////
+//////////////////////////////////////////////////////////////
+
+
+
+
+///////////////////////////////////////////////////////////////
+////////////////////2015-11-26////////////////////////////////
+//////////////////////////////////////////////////////////////
+- code db back-up
+- database 
+- make sure all fields/tables are normalized
+- implement ajax in document file upload in ViewEmployee.aspx
+- preload application - https://msdn.microsoft.com/en-us/library/cc668225.aspx
+- configure <compilation debug="true"> to false when deploying to production
+
+PROD - save in excel file to restore table values
+Host to Azure						
+
+
+
+2015-11-25
+PRODUCTION: - 
+	error when uploading not selected document file Employee/ViewEmployee
+	validation in emp movement
+
+***NOT EDITABLE EMP_ID
+
+	IsActive -> can login
+	HasResigned -> will not show in **edit: removed
+
+
+2015-11-24
+	Create Profile Report
+	Report - Monthly Celebrant
+
+2015-11-23
+	Update EMOVEMENT_EMPLOYEE ->add column FromDate, ToDate, EffectivityDate
+	!Create EVALUATION_PERIOD ->Id, FromDate, ToDate
+	Account Management -> Change pass, reset pass(admin/hr)
+
+	
+
+	extra: 
+		db back-up
+		activity logging
+		error-logging ->must sent to specified email
+
+
+	Deployment:
+		*
+
+
+	List of Possible EMPLOYEE_ACTION
+		File Upload - ViewEmployee
+
+
+
+AZ SIDE [!--ACTION REQURED--!]:
+	Update browser (Chrome/Firefox/IE)
+	Install SQL Server
+	Install SQL Server Management Studio 2008
+	Install/Update IIS
+
+
+	Office Action Required
+		Class Clean-up
+
+
+	Allow Remote Connection from Dev Machine to Server(access db and commit changes)
+!IMPORTANT
+>Account Management
+	Register - DONE
+	Update Account Details - DONE
+	Change Password - DONE
+	Reset Password - DONE
+>Generate Report - [Individual Profile]
+
+
+IMPORTANT FIX/BUG
+>PositionManagement.cs ->auto update user roles when changing role of position
+
+HR:
+>cant see admin in list
+
+
+IMPROVEMENTS, PERFORMANCE
+- Profile Image Upload - (sizing)
+
+
+
+=================================================================
+=================================================================
+============ FUTURE IMPLEMENTATION ==============================
+=================================================================
+=================================================================
+- make rich editor in Announcement
